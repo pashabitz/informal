@@ -20,7 +20,7 @@ export default function FormFields({ id }: { id: string } ) {
     setName('');
   };
   return <>
-  <h1>Form: {id}&nbsp;<a href={`/f/${id}`} target="_blank">preview </a></h1>
+  
   
   <h2>Fields:</h2>
   <ol>
