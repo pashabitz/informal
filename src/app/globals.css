@@ -37,6 +37,10 @@ tr:nth-child(odd) {
   @apply bg-white;
 }
 
+td {
+  @apply px-2 py-1;
+}
+
 a {
   @apply hover:underline;
 }

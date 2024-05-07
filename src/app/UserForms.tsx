@@ -16,6 +16,8 @@ export default function UserForms() {
         {forms.map((form) => (
             <tr key={form._id}>
                 <td><a href={`/edit-form/${form._id}`}>{form._id}</a></td>
+                <td>{form.name}</td>
+                <td>{form.description}</td>
             </tr>
         ))}
         </tbody>
