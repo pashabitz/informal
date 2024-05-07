@@ -7,6 +7,7 @@ export const addField = mutation({
         name: v.string(),
         type: v.string(),
         order: v.number(),
+        selectOptions: v.optional(v.array(v.string())),
     },
     handler: async (ctx, args) => {
         const identity = await ctx.auth.getUserIdentity();

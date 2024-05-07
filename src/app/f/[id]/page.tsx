@@ -43,6 +43,7 @@ export default function Page({ params }: { params: { id: string } }) {
         <div>{formDetails?.description}</div>
       {fields && fields.map((field) => (
         <div key={field._id}>
+            {field.type === 'text' ? (
           <input 
           type={field.type}
           name={field.name}
@@ -50,6 +51,18 @@ export default function Page({ params }: { params: { id: string } }) {
           value={formValues[field.name] || ''}
           onChange={handleChange} 
         />
+
+            ): (
+            <select
+            name={field.name}
+            value={formValues[field.name]}
+            onChange={handleChange}
+            >
+                {field.selectOptions?.map((option: string) => (
+                    <option key={option} value={option}>{option}</option>
+                ))}
+            </select>
+            )}
         </div>
       ))}
     </div>
