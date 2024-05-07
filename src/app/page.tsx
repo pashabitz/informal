@@ -21,7 +21,7 @@ export default function Home() {
         Welcome to Informal. Sign in to start creating forms.
       </Unauthenticated>
         <Authenticated>
-          You don't have any forms yet. Create one.
+          You don&apos;t have any forms yet. Create one.
         </Authenticated>
         
     </main>
