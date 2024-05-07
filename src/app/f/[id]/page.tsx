@@ -36,7 +36,6 @@ export default function Page({ params }: { params: { id: string } }) {
     <div>Your submission was recorded. Thank you ❤️</div>
   ) : (
   <form onSubmit={handleSubmit}>
-    <h1>Form Fields</h1>
     <div>
       {fields && fields.map((field) => (
         <div key={field._id}>

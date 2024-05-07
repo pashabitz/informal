@@ -21,3 +21,29 @@ export const addResponse = mutation({
         return responseId;
     },
 });
+
+export const getFormResponses = query({
+    args: {
+        formId: v.string(),
+    },
+    handler: async (ctx, args) => {
+        const identity = await ctx.auth.getUserIdentity();
+        if (identity === null) {
+            throw new Error("Not authenticated");
+        }
+        const form = await ctx.db
+            .query("forms")
+            .filter((q) => q.and(
+                q.eq(q.field("_id"), args.formId),
+                q.eq(q.field("createdBy"), identity.tokenIdentifier)
+            ))
+            .unique();
+        if (!form) {
+            throw new Error("Form not found");
+        }
+        return ctx.db
+            .query("form_responses")
+            .filter((q) => q.eq(q.field("formId"), args.formId))
+            .collect();
+    },
+})
