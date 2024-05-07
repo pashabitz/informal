@@ -44,3 +44,15 @@ a {
 h2 {
   @apply mt-4;
 }
+
+form {
+  @apply flex flex-col space-y-2;
+}
+
+input[type="text"] {
+  @apply border rounded p-1;
+}
+
+input[type="text"]::placeholder {
+  @apply text-gray-500;
+}

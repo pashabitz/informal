@@ -1,8 +1,8 @@
 "use client";
 import { useState } from "react";
 import { useQuery, Authenticated, Unauthenticated, useMutation } from 'convex/react';
-import { useRouter } from 'next/router'
 import { api } from '../../../../convex/_generated/api';
+
 
 export default function FormFields({ id }: { id: string } ) {
   const [name, setName] = useState('');
@@ -20,7 +20,8 @@ export default function FormFields({ id }: { id: string } ) {
     setName('');
   };
   return <>
-  <h1>Form: {id}</h1>
+  <h1>Form: {id}&nbsp;<a href={`/f/${id}`} target="_blank">preview </a></h1>
+  
   <h2>Fields:</h2>
   <ol>
     {formFields && formFields.map((field) => (
@@ -28,7 +29,7 @@ export default function FormFields({ id }: { id: string } ) {
     ))}
   </ol>
   <h2>Add field:</h2>
-  <form onSubmit={handleSubmit} className="flex flex-col space-y-2">
+  <form onSubmit={handleSubmit}>
     <label htmlFor="name">Field name</label>
     <input type="text" name="name" placeholder="Field name" value={name} onChange={e => setName(e.target.value)} />
     <label htmlFor="type">Field type</label>

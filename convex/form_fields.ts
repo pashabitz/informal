@@ -13,6 +13,13 @@ export const addField = mutation({
         if (identity === null) {
             throw new Error("Not authenticated");
         }
+        const form = await ctx.db
+            .query("forms")
+            .filter((q) => q.eq(q.field("_id"), args.formId))
+            .unique();
+        if (!form || form.createdBy !== identity.tokenIdentifier) {
+            throw new Error("Form not found");
+        }
         const newFormId = await ctx.db.insert("form_fields", args);
         return newFormId;
     },
@@ -23,15 +30,12 @@ export const getFormFields = query({
         formId: v.string(),
     },
     handler: async (ctx, args) => {
-        const identity = await ctx.auth.getUserIdentity();
-        if (identity === null) {
-            throw new Error("Not authenticated");
-        }
+
         const form = await ctx.db
             .query("forms")
             .filter((q) => q.eq(q.field("_id"), args.formId))
             .unique();
-        if (!form || form.createdBy !== identity.tokenIdentifier) {
+        if (!form) {
             throw new Error("Form not found");
         }
         return ctx.db

@@ -1,8 +1,6 @@
 "use client";
-import { useState } from "react";
-import { useQuery, Authenticated, Unauthenticated, useMutation } from 'convex/react';
-import { useRouter } from 'next/router'
-import { api } from '../../../../convex/_generated/api';
+import { Authenticated, Unauthenticated } from 'convex/react';
+
 import FormFields from "./FormFields";
 
 export default function Page({ params }: { params: { id: string } }) {
