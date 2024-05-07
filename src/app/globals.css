@@ -41,8 +41,11 @@ a {
   @apply hover:underline;
 }
 
+h1 {
+  @apply text-2xl;
+}
 h2 {
-  @apply mt-4;
+  @apply mt-8 text-lg;
 }
 
 form {
