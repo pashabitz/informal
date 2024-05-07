@@ -13,7 +13,7 @@ export default function FormResponses({ id }: { id: string } ) {
         <div>
             {new Date(r._creationTime).toLocaleString()}
             <ol>
-                {r.values.map((v) => (
+                {r.values.map((v: { name: string, value: string }) => (
                     <li key={v.name}>{v.name}: {v.value}</li>
                 ))}
             </ol>
