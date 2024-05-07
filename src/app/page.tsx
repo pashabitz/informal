@@ -1,8 +1,10 @@
 "use client";
 import { SignInButton, UserButton } from "@clerk/clerk-react";
 import { Authenticated, Unauthenticated, useQuery } from "convex/react";
+import UserForms from "./UserForms";
 
 export default function Home() {
+  
   return (
     <div>
       <header className="border-2 border-blue flex justify-between items-center">
@@ -17,13 +19,12 @@ export default function Home() {
         </div>
       </header>
     <main className="min-h-[80vh]">
-      <Unauthenticated>
+    <Unauthenticated>
         Welcome to Informal. Sign in to start creating forms.
       </Unauthenticated>
-        <Authenticated>
-          You don&apos;t have any forms yet. Create one.
-        </Authenticated>
-        
+      <Authenticated>
+      <UserForms />
+      </Authenticated>
     </main>
     <footer>Footer</footer>
     </div>

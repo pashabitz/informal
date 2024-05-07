@@ -25,3 +25,14 @@ body {
     text-wrap: balance;
   }
 }
+button {
+  @apply bg-gradient-to-r from-blue-500 to-blue-700 text-white rounded p-1;
+}
+
+tr:nth-child(even) {
+  @apply bg-gray-200;
+}
+
+tr:nth-child(odd) {
+  @apply bg-white;
+}
