@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { useQuery, useMutation } from 'convex/react';
 import { api } from '../../../../convex/_generated/api';
+import { Id } from "../../../../convex/_generated/dataModel";
 
 
 export default function FormFields({ id }: { id: string } ) {
@@ -10,6 +11,7 @@ export default function FormFields({ id }: { id: string } ) {
   const [selectOptions, setSelectOptions] = useState('');
   const formFields = useQuery(api.form_fields.getFormFields, { formId: id });
   const addField = useMutation(api.form_fields.addField);
+  const deleteField = useMutation(api.form_fields.deleteField);
 
   const handleSubmit = async (event: { preventDefault: () => void; }) => {
     event.preventDefault();
@@ -31,19 +33,26 @@ export default function FormFields({ id }: { id: string } ) {
     await addField(field)
     setName('');
   };
+    function handleDeleteField(id: Id<"form_fields">): void {
+        console.log('delete field', id);
+        deleteField({ fieldId: id })
+    }
+
   return <>
   
   
   <h2>Fields:</h2>
   <ol>
     {formFields && formFields.map((field) => (
-      <li key={field._id}>{field.name} {field.type} {field.selectOptions?.join(",") || ""}</li>
+      <li key={field._id}>{field.name} {field.type} {field.selectOptions?.join(",") || ""}
+      <span className="delete-button" onClick={e => handleDeleteField(field._id)}></span>
+      </li>
     ))}
   </ol>
   <h2>Add field:</h2>
   <form onSubmit={handleSubmit}>
     <label htmlFor="name">Field name</label>
-    
+
     <input 
     type="text" 
     name="name" 
