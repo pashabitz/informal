@@ -14,6 +14,7 @@ import type {
   FilterApi,
   FunctionReference,
 } from "convex/server";
+import type * as form_fields from "../form_fields.js";
 import type * as forms from "../forms.js";
 
 /**
@@ -25,6 +26,7 @@ import type * as forms from "../forms.js";
  * ```
  */
 declare const fullApi: ApiFromModules<{
+  form_fields: typeof form_fields;
   forms: typeof forms;
 }>;
 export declare const api: FilterApi<

@@ -40,3 +40,7 @@ tr:nth-child(odd) {
 a {
   @apply hover:underline;
 }
+
+h2 {
+  @apply mt-4;
+}

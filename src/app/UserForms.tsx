@@ -3,7 +3,7 @@ import { Authenticated, Unauthenticated, useQuery, useMutation } from "convex/re
 import { api } from "../../convex/_generated/api";
 
 export default function UserForms() {
-    const createForm = useMutation(api.forms.create);
+  const createForm = useMutation(api.forms.create);
   const handleCreateClick = async () => {
     const newFormId = await createForm({});
     console.log(`created form with id ${newFormId}`);

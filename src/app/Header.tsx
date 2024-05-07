@@ -6,7 +6,7 @@ export default function Header() {
   
   return (
       <header className="border-2 border-blue flex justify-between items-center">
-        <h1 className="ml-2">Informal</h1>
+        <h1 className="ml-2"><a href="/">Informal</a></h1>
         <div className="inline-block mr-2">
           <Unauthenticated>
             <SignInButton/>
