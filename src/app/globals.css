@@ -36,3 +36,7 @@ tr:nth-child(even) {
 tr:nth-child(odd) {
   @apply bg-white;
 }
+
+a {
+  @apply hover:underline;
+}

@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import ConvexClientProvider from "./ConvexClientProvider";
+import { ClerkProvider, useAuth } from "@clerk/clerk-react";
+import { ConvexProviderWithClerk } from "convex/react-clerk";
 
 import "./globals.css";
+import Header from "./Header";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,9 +22,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
+        <div className="flex flex-col min-h-screen">
         <ConvexClientProvider>
+        <Header />
+        <main className="flex-grow">
         {children}
+        </main>
         </ConvexClientProvider>
+        <footer className="flex justify-center items-center">Made with ❤️ and&nbsp;<a href="https://convex.dev" target="_blank">Convex</a></footer>
+        </div>
         </body>
     </html>
   );

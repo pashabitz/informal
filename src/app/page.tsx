@@ -5,28 +5,13 @@ import UserForms from "./UserForms";
 
 export default function Home() {
   
-  return (
-    <div>
-      <header className="border-2 border-blue flex justify-between items-center">
-        <h1 className="ml-2">Informal</h1>
-        <div className="inline-block mr-2">
-          <Unauthenticated>
-            <SignInButton/>
-          </Unauthenticated>
-          <Authenticated>
-            <UserButton />
-          </Authenticated>
-        </div>
-      </header>
-    <main className="min-h-[80vh]">
+  return ( <>
+      
     <Unauthenticated>
         Welcome to Informal. Sign in to start creating forms.
       </Unauthenticated>
       <Authenticated>
       <UserForms />
       </Authenticated>
-    </main>
-    <footer>Footer</footer>
-    </div>
-  );
+  </>);
 }
