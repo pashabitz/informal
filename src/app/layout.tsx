@@ -21,6 +21,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <link rel="icon" href="https://zany.sh/favicon.svg?emoji=📋"></link>
+      </head>
       <body className={inter.className}>
         <div className="flex flex-col min-h-screen">
         <ConvexClientProvider>
