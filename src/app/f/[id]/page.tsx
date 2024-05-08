@@ -58,6 +58,7 @@ export default function Page({ params }: { params: { id: string } }) {
             value={formValues[field.name]}
             onChange={handleChange}
             >
+                <option value="">Select an option</option>
                 {field.selectOptions?.map((option: string) => (
                     <option key={option} value={option}>{option}</option>
                 ))}
