@@ -24,7 +24,7 @@ return (
                 ))}
             </ol>
         ) : (
-            <p>None yet.</p>
+            <p>None yet. Share the form's URL to collect responses.</p>
         )}
     </>
 );

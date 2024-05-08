@@ -52,7 +52,8 @@ export default function FormFields({ id }: { id: string } ) {
     <button onClick={handleCopy} className="bg-none">📋</button>
   </div>&nbsp;
   <a href={`/f/${slug}`} target="_blank">preview ↗️</a>
-  <form onSubmit={handleSubmit}>
+  <p className="italic text-[var(--placeholder-color)]">Publish this URL to collect responses.</p>
+  <form onSubmit={handleSubmit} className="mt-4">
     <label htmlFor="slug">Slug</label>
     <input type="text" name="slug" placeholder="Slug" value={slug} onChange={e => setSlug(e.target.value)} />
     <label htmlFor="name">Form name</label>
