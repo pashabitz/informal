@@ -42,7 +42,7 @@ export default function Page({ params }: { params: { id: string } }) {
         <h1>{formDetails?.name || params.id}</h1>
         <div>{formDetails?.description}</div>
       {fields && fields.map((field, i) => (
-        <div key={field._id}>
+        <div className="public-form-field" key={field._id}>
             <label htmlFor={field.name}>{field.name}</label>
             {field.type === 'text' ? (
           <input 

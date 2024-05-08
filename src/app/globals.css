@@ -95,3 +95,7 @@ input[type="text"]::placeholder {
 .delete-button::after {
   content: "🗑️";
 }
+
+div.public-form-field {
+  @apply my-2;
+}
