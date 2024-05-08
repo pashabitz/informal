@@ -1,4 +1,4 @@
-import { v } from 'convex/values';
+import { ConvexError, v } from 'convex/values';
 import { mutation, query } from './_generated/server';
 export const create = mutation({
     handler: async (ctx, args) => {
@@ -38,6 +38,44 @@ export const update = mutation({
                 name: args.name,
                 description: args.description,
             });
+    },
+});
+
+export const deleteForm = mutation({
+    args: {
+        formId: v.id("forms"),
+    },
+    handler: async (ctx, args) => {
+        const identity = await ctx.auth.getUserIdentity();
+        if (identity === null) {
+            throw new Error("Not authenticated");
+        }
+        const form = await ctx.db
+            .query("forms")
+            .filter((q) => q.and(
+                q.eq(q.field("_id"), args.formId),
+                q.eq(q.field("createdBy"), identity.tokenIdentifier)
+            ))
+            .unique();
+        if (!form) {
+            throw new Error("Form not found");
+        }
+        const formResponses = await ctx.db
+            .query("form_responses")
+            .filter((q) => q.eq(q.field("formId"), args.formId))
+            .collect();
+        if (formResponses?.length > 0) {
+            throw new ConvexError("Form has responses - cannot delete");
+        }
+
+        const formFields = await ctx.db
+            .query("form_fields")
+            .filter((q) => q.eq(q.field("formId"), args.formId))
+            .collect();
+        for (const field of formFields) {
+            await ctx.db.delete(field._id);
+        }
+        await ctx.db.delete(args.formId);
     },
 });
 
