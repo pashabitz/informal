@@ -30,6 +30,10 @@ export default function FormFields({ id }: { id: string } ) {
         alert("Slug must be at least 5 characters long");
         return;
     }
+    if (slug.trim().includes(" ")) {
+        alert("Slug cannot contain spaces");
+        return;
+    }
     try {
         await updateForm({ formId: id as Id<"forms">, name, description, slug });
     } catch (e: any) {
@@ -52,10 +56,10 @@ export default function FormFields({ id }: { id: string } ) {
     <label htmlFor="slug">Slug</label>
     <input type="text" name="slug" placeholder="Slug" value={slug} onChange={e => setSlug(e.target.value)} />
     <label htmlFor="name">Form name</label>
-    <input type="text" name="name" placeholder="Form name" value={name} onChange={e => setName(e.target.value)} />
+    <input type="text" name="name" placeholder="Name" value={name} onChange={e => setName(e.target.value)} />
     <label htmlFor="type">Form description</label>
-    <input type="text" name="description" placeholder="Form description" value={description} onChange={e => setDescription(e.target.value)} />
-  <button type="submit">Save</button>
+    <input type="text" name="description" placeholder="Description" value={description} onChange={e => setDescription(e.target.value)} />
+    <button type="submit">Save</button>
   </form>
   
   </>

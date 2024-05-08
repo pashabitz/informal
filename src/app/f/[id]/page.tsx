@@ -1,7 +1,7 @@
 "use client";
 import { useQuery, Authenticated, Unauthenticated, useMutation } from 'convex/react';
 import { api } from '../../../../convex/_generated/api';
-import { useState } from 'react';
+import { DetailedHTMLProps, InputHTMLAttributes, useEffect, useRef, useState } from 'react';
 import { Id } from '../../../../convex/_generated/dataModel';
 
 export default function Page({ params }: { params: { id: string } }) {
@@ -41,14 +41,16 @@ export default function Page({ params }: { params: { id: string } }) {
     <div>
         <h1>{formDetails?.name || params.id}</h1>
         <div>{formDetails?.description}</div>
-      {fields && fields.map((field) => (
+      {fields && fields.map((field, i) => (
         <div key={field._id}>
+            <label htmlFor={field.name}>{field.name}</label>
             {field.type === 'text' ? (
           <input 
           type={field.type}
           name={field.name}
           placeholder={field.name}
           value={formValues[field.name] || ''}
+          autoFocus={i === 0}
           onChange={handleChange} 
         />
 
@@ -56,6 +58,7 @@ export default function Page({ params }: { params: { id: string } }) {
             <select
             name={field.name}
             value={formValues[field.name]}
+            autoFocus={i === 0}
             onChange={handleChange}
             >
                 <option value="">Select an option</option>

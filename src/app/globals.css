@@ -6,6 +6,13 @@
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
+  --primary-color: #1D4ED8; /* blue-500 */
+  --primary-accented-color: #2563EB; /* blue-600 */
+  --hover-color: #1E40AF; /* blue-700 */
+  --text-color: #F9FAFB; /* white */
+  --bg-color-even: #F3F4F6; /* gray-100 */
+  --bg-color-odd: #FFFFFF; /* white */
+  --placeholder-color: #6B7280; /* gray-500 */
 }
 
 @media (prefers-color-scheme: dark) {
@@ -15,7 +22,9 @@
     --background-end-rgb: 0, 0, 0;
   }
 }
-
+* {
+  @apply font-sans;
+}
 body {
   color: rgb(var(--foreground-rgb));
 }
@@ -26,19 +35,26 @@ body {
   }
 }
 button {
-  @apply bg-gradient-to-r from-blue-500 to-blue-700 text-white rounded p-1;
+  @apply bg-gradient-to-r from-[var(--primary-color)] to-[var(--primary-accented-color)] text-white rounded px-4 py-1 transition duration-200 ease-in-out transform;
+}
+
+button:hover {
+  @apply scale-105;
 }
 
 tr:nth-child(even) {
-  @apply bg-gray-200;
+  @apply bg-[var(--bg-color-even)];
 }
 
 tr:nth-child(odd) {
-  @apply bg-white;
+  @apply bg-[var(--bg-color-odd)];
 }
 
-td {
-  @apply px-2 py-1;
+td, th {
+  @apply pr-2 py-1;
+}
+th {
+  @apply text-left;
 }
 
 a {
@@ -51,17 +67,33 @@ h1 {
 h2 {
   @apply mt-8 text-lg;
 }
-
+ hr {
+  @apply mt-2 bg-[var(--primary-color)];
+ }
+select {
+  @apply min-h-8;
+}
 form {
   @apply flex flex-col space-y-2;
 }
 
-input[type="text"] {
+form button, input, select {
+  @apply self-start;
+}
+
+form input, select, label {
+  @apply min-w-80;
+}
+
+form label {
+  @apply inline-block;
+}
+input[type="text"], select {
   @apply border rounded p-1;
 }
 
 input[type="text"]::placeholder {
-  @apply text-gray-500;
+  @apply text-[var(--placeholder-color)];
 }
 
 .delete-button {

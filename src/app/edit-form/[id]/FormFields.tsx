@@ -43,13 +43,26 @@ export default function FormFields({ id }: { id: string } ) {
   
   
   <h2>Fields:</h2>
-  <ol>
+  <table className="border-1 border-black border-solids">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Options</th>
+            <th></th>
+        </tr>
+    </thead>
+  <tbody>
     {formFields && formFields.map((field) => (
-      <li key={field._id}>{field.name} {field.type} {field.selectOptions?.join(",") || ""}
-      <span className="delete-button" onClick={e => handleDeleteField(field._id)}></span>
-      </li>
+      <tr key={field._id}>
+        <td>{field.name}</td>
+        <td>{field.type}</td>
+        <td>{field.selectOptions?.join(",") || ""}</td>
+        <td><span className="delete-button" onClick={e => handleDeleteField(field._id)}></span></td>
+      </tr>
     ))}
-  </ol>
+    </tbody>
+    </table>
   <h2>Add field:</h2>
   <form onSubmit={handleSubmit}>
     <label htmlFor="name">Field name</label>

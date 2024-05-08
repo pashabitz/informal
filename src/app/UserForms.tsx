@@ -23,6 +23,8 @@ export default function UserForms() {
   const forms = useQuery(api.forms.getUserForms, {});
     return <>
    {forms && forms.length > 0 ? (
+    <>
+    <h2 className="mt-0">Your forms:</h2>
     <table>
         <tbody>
         {forms.map((form) => (
@@ -35,10 +37,11 @@ export default function UserForms() {
         ))}
         </tbody>
     </table>
+    </>
    ) : (
         <p>You don&apos;t have any forms yet. </p>
 
    )}
-   <button onClick={handleCreateClick}>Create</button>
+   <button onClick={handleCreateClick}>New</button>
     </>
 }
