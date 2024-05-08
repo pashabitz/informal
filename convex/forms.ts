@@ -33,6 +33,17 @@ export const update = mutation({
         if (!form) {
             throw new Error("Form not found");
         }
+
+        const formsOfThisUser = await ctx.db
+        .query("forms")
+        .filter((q) => q.eq(q.field("createdBy"), identity.tokenIdentifier))
+        .collect();
+        const sameNameForms = formsOfThisUser.filter((f) => f.name === args.name.trim());
+        
+        if (sameNameForms.length > 0 && sameNameForms[0]._id !== args.formId) {
+            throw new ConvexError("Form with this name already exists");
+        }
+
         await ctx.db
             .patch(args.formId, {
                 name: args.name,

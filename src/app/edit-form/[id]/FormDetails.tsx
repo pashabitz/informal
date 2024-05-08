@@ -24,7 +24,11 @@ export default function FormFields({ id }: { id: string } ) {
       alert("Please enter a form name");
       return;
     }
-    await updateForm({ formId: id as Id<"forms">, name, description })
+    try {
+        await updateForm({ formId: id as Id<"forms">, name, description });
+    } catch (e: any) {
+        alert(e.data);
+    }
   };
   const formUrlRef = useRef<HTMLSpanElement>(null);
   const handleCopy = async () => {

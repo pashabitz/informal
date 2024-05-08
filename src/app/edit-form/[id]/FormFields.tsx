@@ -32,6 +32,7 @@ export default function FormFields({ id }: { id: string } ) {
     }
     await addField(field)
     setName('');
+    setSelectOptions('');    
   };
     function handleDeleteField(id: Id<"form_fields">): void {
         console.log('delete field', id);
