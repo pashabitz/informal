@@ -7,7 +7,7 @@ export default function Header() {
   const rainbowColors = ['red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'violet'];
   const word = 'Informal';
   const rainbowWord = word.split('').map((letter, i) => (
-    <span style={{ color: rainbowColors[i % rainbowColors.length] }}>{letter}</span>
+    <span key={i} style={{ color: rainbowColors[i % rainbowColors.length] }}>{letter}</span>
   ));
 
   return (
