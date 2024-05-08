@@ -11,7 +11,7 @@ export default function Header() {
   ));
 
   return (
-      <header className="border-b-2 border-blue flex justify-between items-center my-2">
+      <header className="border-b-2 border-blue flex justify-between items-center py-2">
         <h1 className="ml-2" ><a href="/" >{rainbowWord}</a></h1>
         <div className="inline-block mr-2">
           <Unauthenticated>
