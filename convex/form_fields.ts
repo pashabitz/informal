@@ -73,17 +73,28 @@ export const getFormFields = query({
         formId: v.string(),
     },
     handler: async (ctx, args) => {
+        return ctx.db
+            .query("form_fields")
+            .filter((q) => q.eq(q.field("formId"), args.formId))
+            .collect();
+    },
+});
 
+export const getBySlug = query({
+    args: {
+        slug: v.string(),
+    },
+    handler: async (ctx, args) => {
         const form = await ctx.db
             .query("forms")
-            .filter((q) => q.eq(q.field("_id"), args.formId))
+            .filter((q) => q.eq(q.field("slug"), args.slug))
             .unique();
         if (!form) {
             throw new Error("Form not found");
         }
         return ctx.db
             .query("form_fields")
-            .filter((q) => q.eq(q.field("formId"), args.formId))
+            .filter((q) => q.eq(q.field("formId"), form._id))
             .collect();
     },
 });

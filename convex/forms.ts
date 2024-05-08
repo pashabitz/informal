@@ -1,5 +1,23 @@
 import { ConvexError, v } from 'convex/values';
 import { mutation, query } from './_generated/server';
+import { AnyDataModel, GenericMutationCtx } from 'convex/server';
+const generateUniqueSlug = async (ctx: GenericMutationCtx<AnyDataModel>) => {
+    let tries = 0;
+    while (tries < 5) {
+        const randomString = [...Array(5)]
+        .map(() => Math.random().toString(36)[2])
+        .join("");
+        const existingForm = await ctx.db
+            .query("forms")
+            .filter((q) => q.eq(q.field("slug"), randomString))
+            .first();
+        if (!existingForm) {
+            return randomString;
+        }
+        tries++;
+    }
+    throw new ConvexError("Failed to generate a unique slug");
+};
 export const create = mutation({
     handler: async (ctx, args) => {
         const identity = await ctx.auth.getUserIdentity();
@@ -8,6 +26,7 @@ export const create = mutation({
         }
         const newFormId = await ctx.db.insert("forms", {
             createdBy: identity.tokenIdentifier,
+            slug: await generateUniqueSlug(ctx),
         });
         return newFormId;
     },
@@ -17,6 +36,7 @@ export const update = mutation({
         formId: v.id("forms"),
         name: v.string(),
         description: v.string(),
+        slug: v.string(),
     },
     handler: async (ctx, args) => {
         const identity = await ctx.auth.getUserIdentity();
@@ -34,6 +54,14 @@ export const update = mutation({
             throw new Error("Form not found");
         }
 
+        const formBySlug = await ctx.db
+            .query("forms")
+            .filter((q) => q.eq(q.field("slug"), args.slug))
+            .first();
+        if (formBySlug && formBySlug._id !== args.formId) {
+            throw new ConvexError("Form with this slug already exists");
+        }
+
         const formsOfThisUser = await ctx.db
         .query("forms")
         .filter((q) => q.eq(q.field("createdBy"), identity.tokenIdentifier))
@@ -48,6 +76,7 @@ export const update = mutation({
             .patch(args.formId, {
                 name: args.name,
                 description: args.description,
+                slug: args.slug,
             });
     },
 });
@@ -98,6 +127,22 @@ export const get = query({
         const form = await ctx.db
             .query("forms")
             .filter((q) => q.eq(q.field("_id"), args.formId))
+            .unique();
+        if (!form) {
+            throw new Error("Form not found");
+        }
+        return form;
+    },
+});
+
+export const getBySlug = query({
+    args: {
+        slug: v.string(),
+    },
+    handler: async (ctx, args) => {
+        const form = await ctx.db
+            .query("forms")
+            .filter((q) => q.eq(q.field("slug"), args.slug))
             .unique();
         if (!form) {
             throw new Error("Form not found");

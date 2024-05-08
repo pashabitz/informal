@@ -3,7 +3,7 @@ import { v } from "convex/values";
 
 export const addResponse = mutation({
     args: {
-        formId: v.string(),
+        slug: v.string(),
         values: v.array(v.object({
             name: v.string(),
             value: v.string(),
@@ -12,12 +12,13 @@ export const addResponse = mutation({
     handler: async (ctx, args) => {
         const form = await ctx.db
             .query("forms")
-            .filter((q) => q.eq(q.field("_id"), args.formId))
+            .filter((q) => q.eq(q.field("slug"), args.slug))
             .unique();
         if (!form) {
             throw new Error("Form not found");
         }
-        const responseId = await ctx.db.insert("form_responses", args);
+        const response = {...args, formId: form._id};
+        const responseId = await ctx.db.insert("form_responses", response);
         return responseId;
     },
 });

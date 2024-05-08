@@ -5,8 +5,8 @@ import { useState } from 'react';
 import { Id } from '../../../../convex/_generated/dataModel';
 
 export default function Page({ params }: { params: { id: string } }) {
-  const fields = useQuery(api.form_fields.getFormFields, { formId: params.id });
-  const formDetails = useQuery(api.forms.get, { formId: params.id as Id<"forms"> });
+  const fields = useQuery(api.form_fields.getBySlug, { slug: params.id });
+  const formDetails = useQuery(api.forms.getBySlug, { slug: params.id });
   const [formValues, setFormValues] = useState<{ [key: string]: string }>({});
   const [isSubmitted, setIsSubmitted] = useState(false);
   const addResponse = useMutation(api.form_responses.addResponse);
@@ -30,7 +30,7 @@ export default function Page({ params }: { params: { id: string } }) {
       name: field.name,
       value: formValues[field.name]
     })) || [];
-    await addResponse({ formId: params.id, values: responseValues });
+    await addResponse({ slug: params.id, values: responseValues });
     setIsSubmitted(true);
   }
   return <>

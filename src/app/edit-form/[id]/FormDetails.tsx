@@ -7,14 +7,16 @@ import { Id } from "../../../../convex/_generated/dataModel";
 
 export default function FormFields({ id }: { id: string } ) {
   const formDetails = useQuery(api.forms.get, { formId: id as Id<"forms"> });
-  const [name, setName] = useState(formDetails?.name || '');
-  const [description, setDescription] = useState(formDetails?.description || '');
+  const [name, setName] = useState('');
+  const [description, setDescription] = useState('');
+  const [slug, setSlug] = useState('');
   const updateForm = useMutation(api.forms.update);
 
   useEffect(() => {
     if (formDetails) {
       setName(formDetails.name || '');
       setDescription(formDetails.description || '');
+      setSlug(formDetails.slug || '');
     }
   }, [formDetails]);
   
@@ -24,8 +26,12 @@ export default function FormFields({ id }: { id: string } ) {
       alert("Please enter a form name");
       return;
     }
+    if (slug.trim().length < 5) {
+        alert("Slug must be at least 5 characters long");
+        return;
+    }
     try {
-        await updateForm({ formId: id as Id<"forms">, name, description });
+        await updateForm({ formId: id as Id<"forms">, name, description, slug });
     } catch (e: any) {
         alert(e.data);
     }
@@ -38,11 +44,13 @@ export default function FormFields({ id }: { id: string } ) {
   };
   return <>
   <div className="inline bg-slate-100 p-2 rounded">
-    <span ref={formUrlRef}>{process.env.NEXT_PUBLIC_WEBSITE_URL}/f/{id}</span>
+    <span ref={formUrlRef}>{process.env.NEXT_PUBLIC_WEBSITE_URL}/f/{slug}</span>
     <button onClick={handleCopy} className="bg-none">📋</button>
   </div>&nbsp;
-  <a href={`/f/${id}`} target="_blank">preview ↗️</a>
+  <a href={`/f/${slug}`} target="_blank">preview ↗️</a>
   <form onSubmit={handleSubmit}>
+    <label htmlFor="slug">Slug</label>
+    <input type="text" name="slug" placeholder="Slug" value={slug} onChange={e => setSlug(e.target.value)} />
     <label htmlFor="name">Form name</label>
     <input type="text" name="name" placeholder="Form name" value={name} onChange={e => setName(e.target.value)} />
     <label htmlFor="type">Form description</label>
