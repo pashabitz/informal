@@ -3,18 +3,39 @@ import { useState } from "react";
 import { useQuery, useMutation } from 'convex/react';
 import { api } from '../../../../convex/_generated/api';
 import { Id } from "../../../../convex/_generated/dataModel";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Form, FormControl, FormField, FormItem, FormLabel } from "@/components/ui/form";
 
+const formSchema = z.object({
+  name: z.string(),
+  type: z.string().refine((value) => ['text', 'select'].includes(value)),
+  select_options: z.optional(z.string()),
+});
 
 export default function FormFields({ id }: { id: string } ) {
-  const [name, setName] = useState('');
-  const [type, setType] = useState('text');
-  const [selectOptions, setSelectOptions] = useState('');
   const formFields = useQuery(api.form_fields.getFormFields, { formId: id });
   const addField = useMutation(api.form_fields.addField);
   const deleteField = useMutation(api.form_fields.deleteField);
 
-  const handleSubmit = async (event: { preventDefault: () => void; }) => {
-    event.preventDefault();
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      name: '',
+      type: '',
+      select_options: '',
+    },
+  });
+  
+  const watchType = form.watch('type');
+
+  const newHandleSubmit = async (values: z.infer<typeof formSchema>) => {
+    const { name, type, select_options } = values;
     if (name.trim() === '') {
       alert("Please enter a field name");
       return;
@@ -28,66 +49,97 @@ export default function FormFields({ id }: { id: string } ) {
         selectOptions: undefined as string[] | undefined,
     };
     if (type === 'select') {
-      field.selectOptions = selectOptions.split(',').map((option: string) => option.trim());
+      field.selectOptions = select_options?.split(',').map((option: string) => option.trim());
+      if (!field.selectOptions) {
+        alert("Please enter options for a select field");
+        return;
+      }
     }
     await addField(field)
-    setName('');
-    setSelectOptions('');    
+    form.setValue('name', '');
+    form.setValue('select_options', '');
   };
-    function handleDeleteField(id: Id<"form_fields">): void {
-        console.log('delete field', id);
-        deleteField({ fieldId: id })
-    }
+  
+  function handleDeleteField(id: Id<"form_fields">): void {
+      console.log('delete field', id);
+      deleteField({ fieldId: id })
+  }
 
   return <>
   
   
   <h2>Form Fields</h2>
-  <table className="min-w-[400px]">
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>Type</th>
-            <th>Options</th>
-            <th></th>
-        </tr>
-    </thead>
-  <tbody>
+  <Table className="min-w-[400px]">
+    <TableHeader>
+        <TableRow>
+            <TableHead>Name</TableHead>
+            <TableHead>Type</TableHead>
+            <TableHead>Options</TableHead>
+            <TableHead></TableHead>
+        </TableRow>
+    </TableHeader>
+  <TableBody>
     {formFields && formFields.map((field) => (
-      <tr key={field._id}>
-        <td>{field.name}</td>
-        <td>{field.type}</td>
-        <td>{field.selectOptions?.join(",") || ""}</td>
-        <td><span className="delete-button" onClick={e => handleDeleteField(field._id)}></span></td>
-      </tr>
+      <TableRow key={field._id}>
+        <TableCell>{field.name}</TableCell>
+        <TableCell>{field.type}</TableCell>
+        <TableCell>{field.selectOptions?.join(",") || ""}</TableCell>
+        <TableCell><span className="delete-button" onClick={e => handleDeleteField(field._id)}></span></TableCell>
+      </TableRow>
     ))}
-    </tbody>
-    </table>
-  <form onSubmit={handleSubmit} className="my-4">
-    <label htmlFor="name">Field name</label>
-
-    <input 
-    type="text" 
-    name="name" 
-    placeholder="Field name" 
-    value={name} 
-    onChange={e => setName(e.target.value)} />
-
-    <label htmlFor="type">Field type</label>
-    <select name="type" onChange={e => setType(e.target.value)}>
-        <option value="text">Text</option>
-        <option value="select">Select</option>
-    </select>
-    {type === 'select' && (
-        <input
-        type="text"
-        name="select_options"
-        placeholder="Option 1, Option 2, ..."
-        value={selectOptions}
-        onChange={e => setSelectOptions(e.target.value)} />
+    </TableBody>
+    </Table>
+    <Form {...form}>
+  <form onSubmit={form.handleSubmit(newHandleSubmit)} className="edit-fields-form">
+<div>
+<FormField
+    control={form.control}
+    name="name"
+    render={({field}) => (
+      <FormItem>
+      <FormControl>
+      <Input type="text" placeholder="Field name" {...field} />
+      </FormControl>
+      </FormItem>
+    )} />
+    
+</div>
+<div>
+<FormField
+  control={form.control}
+  name="type"
+  render={({field}) => (
+  <FormItem>
+    <Select onValueChange={field.onChange} defaultValue={field.value}>
+    <FormControl>
+    <SelectTrigger className="w-40">
+      <SelectValue placeholder="Field type" />
+      </SelectTrigger>
+    </FormControl>
+    <SelectContent>
+      <SelectItem value="text">Text</SelectItem>
+      <SelectItem value="select">Select</SelectItem>
+    </SelectContent>
+    </Select>
+  </FormItem>
+  )} />
+</div>
+    {watchType === 'select' && (
+      <div>
+        <FormField
+    control={form.control}
+    name="select_options"
+    render={({field}) => (
+      <FormItem>
+      <FormControl>
+      <Input type="text" placeholder="Option 1, Option 2, ..." {...field} />
+      </FormControl>
+      </FormItem>
+    )} />
+        </div>
     )}
-  <button type="submit">Add field</button>
+  <Button type="submit">Add field</Button>
   </form>
-  
+  </Form>
   </>
 }
