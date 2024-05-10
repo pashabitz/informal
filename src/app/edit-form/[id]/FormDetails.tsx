@@ -3,25 +3,44 @@ import { useEffect, useRef, useState } from "react";
 import { useQuery, Authenticated, Unauthenticated, useMutation } from 'convex/react';
 import { api } from '../../../../convex/_generated/api';
 import { Id } from "../../../../convex/_generated/dataModel";
+import { z} from 'zod';
+import { Form, FormControl, FormField, FormItem, FormLabel } from "@/components/ui/form";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
+const formSchema = z.object({
+  name: z.string(),
+  description: z.string(),
+  slug: z.string().min(5),
+});
 
 export default function FormFields({ id }: { id: string } ) {
   const formDetails = useQuery(api.forms.get, { formId: id as Id<"forms"> });
-  const [name, setName] = useState('');
-  const [description, setDescription] = useState('');
-  const [slug, setSlug] = useState('');
   const updateForm = useMutation(api.forms.update);
 
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      name: '',
+      description: '',
+      slug: '',
+    },
+  });
+
+  const watchSlug = form.watch('slug');
+  
   useEffect(() => {
     if (formDetails) {
-      setName(formDetails.name || '');
-      setDescription(formDetails.description || '');
-      setSlug(formDetails.slug || '');
+      form.setValue('name', formDetails.name || '');
+      form.setValue('description', formDetails.description || '');
+      form.setValue('slug', formDetails.slug || '');
     }
   }, [formDetails]);
-  
-  const handleSubmit = async (event: { preventDefault: () => void; }) => {
-    event.preventDefault();
+
+  const handleSubmit = async (values: z.infer<typeof formSchema>) => {
+    const { name, description, slug } = values;
     if (name.trim() === '') {
       alert("Please enter a form name");
       return;
@@ -40,6 +59,7 @@ export default function FormFields({ id }: { id: string } ) {
         alert(e.data);
     }
   };
+
   const formUrlRef = useRef<HTMLSpanElement>(null);
   const handleCopy = async () => {
     if(!formUrlRef.current) return;
@@ -48,26 +68,49 @@ export default function FormFields({ id }: { id: string } ) {
   };
   return <>
   <div className="inline bg-slate-100 p-2 rounded">
-    <span ref={formUrlRef}>{process.env.NEXT_PUBLIC_WEBSITE_URL}/f/{slug}</span>
+    <span ref={formUrlRef}>{process.env.NEXT_PUBLIC_WEBSITE_URL}/f/{watchSlug}</span>
     <button onClick={handleCopy} className="bg-none">📋</button>
   </div>&nbsp;
-  <a href={`/f/${slug}`} target="_blank">preview ↗️</a>
+  <a href={`/f/${watchSlug}`} target="_blank">preview ↗️</a>
   <p className="italic text-[var(--placeholder-color)]">Publish this URL to collect responses.</p>
-  <form onSubmit={handleSubmit} className="mt-4">
-    <div>
-    <label htmlFor="slug">Slug</label>
-    <input type="text" name="slug" placeholder="Slug" value={slug} onChange={e => setSlug(e.target.value)} />
-    </div>
-    <div>
-    <label htmlFor="name">Form name</label>
-    <input type="text" name="name" placeholder="Name" value={name} onChange={e => setName(e.target.value)} />
-    </div>
-    <div>
-    <label htmlFor="type">Form description</label>
-    <input type="text" name="description" placeholder="Description" value={description} onChange={e => setDescription(e.target.value)} />
-    </div>
-    <button type="submit">Save</button>
-  </form>
+  <Form {...form}>
+  <form onSubmit={form.handleSubmit(handleSubmit)} className="mt-4">
+    <FormField
+    control={form.control}
+    name="slug"
+    render={({field}) => (
+      <FormItem>
+      <FormLabel>Slug</FormLabel>
+      <FormControl>
+      <Input type="text" {...field} />
+      </FormControl>
+      </FormItem>
+    )} />
+    <FormField
+    control={form.control}
+    name="name"
+    render={({field}) => (
+      <FormItem>
+        <FormLabel>Name</FormLabel>
+        <FormControl>
+      <Input type="text" {...field} />
+      </FormControl>
+      </FormItem>
+    )}/>
+    <FormField
+    control={form.control}
+    name="description"
+    render={({field}) => (
+      <FormItem>
+        <FormLabel>Description</FormLabel>
+        <FormControl>
+      <Input type="text" {...field} />
+      </FormControl>
+      </FormItem>
   
+    )} />
+    <Button type="submit">Save</Button>
+  </form>
+  </Form>
   </>
 }
