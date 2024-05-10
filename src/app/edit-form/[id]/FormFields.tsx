@@ -42,8 +42,8 @@ export default function FormFields({ id }: { id: string } ) {
   return <>
   
   
-  <h2>Fields:</h2>
-  <table className="border-1 border-black border-solids">
+  <h2>Form Fields</h2>
+  <table className="min-w-[400px]">
     <thead>
         <tr>
             <th>Name</th>
@@ -63,8 +63,7 @@ export default function FormFields({ id }: { id: string } ) {
     ))}
     </tbody>
     </table>
-  <h2>Add field:</h2>
-  <form onSubmit={handleSubmit}>
+  <form onSubmit={handleSubmit} className="my-4">
     <label htmlFor="name">Field name</label>
 
     <input 

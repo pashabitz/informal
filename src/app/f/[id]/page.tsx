@@ -48,7 +48,7 @@ export default function Page({ params }: { params: { id: string } }) {
           <input 
           type={field.type}
           name={field.name}
-          placeholder={field.name}
+          placeholder="Your answer"
           value={formValues[field.name] || ''}
           autoFocus={i === 0}
           onChange={handleChange} 

@@ -54,12 +54,18 @@ export default function FormFields({ id }: { id: string } ) {
   <a href={`/f/${slug}`} target="_blank">preview ↗️</a>
   <p className="italic text-[var(--placeholder-color)]">Publish this URL to collect responses.</p>
   <form onSubmit={handleSubmit} className="mt-4">
+    <div>
     <label htmlFor="slug">Slug</label>
     <input type="text" name="slug" placeholder="Slug" value={slug} onChange={e => setSlug(e.target.value)} />
+    </div>
+    <div>
     <label htmlFor="name">Form name</label>
     <input type="text" name="name" placeholder="Name" value={name} onChange={e => setName(e.target.value)} />
+    </div>
+    <div>
     <label htmlFor="type">Form description</label>
     <input type="text" name="description" placeholder="Description" value={description} onChange={e => setDescription(e.target.value)} />
+    </div>
     <button type="submit">Save</button>
   </form>
   
