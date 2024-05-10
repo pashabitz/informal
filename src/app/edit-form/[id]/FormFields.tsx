@@ -79,7 +79,12 @@ export default function FormFields({ id }: { id: string } ) {
         <option value="select">Select</option>
     </select>
     {type === 'select' && (
-        <input type="text" name="select_options" placeholder="Option 1, Option 2, ..." onChange={e => setSelectOptions(e.target.value)} />
+        <input
+        type="text"
+        name="select_options"
+        placeholder="Option 1, Option 2, ..."
+        value={selectOptions}
+        onChange={e => setSelectOptions(e.target.value)} />
     )}
   <button type="submit">Add field</button>
   </form>
