@@ -73,16 +73,42 @@
     body {
       @apply bg-background text-foreground;
     }
+    h1 {
+      @apply text-2xl;
+    }
+    h2 {
+      @apply mt-8 text-lg;
+    }
+    hr {
+      @apply my-4 bg-primary;
+    }
     span.delete-button {
       @apply cursor-pointer;
     }
     span.delete-button::after {
       content: "🗑️";
     }
+    form {
+      @apply flex flex-col;
+    }
     form.edit-fields-form {
-      @apply flex;
+      @apply flex-row;
       div {
-        @apply mr-1;
+        @apply flex mr-1;
       }
     }
-  }
+    form button, input, select {
+      @apply self-start;
+    }
+    
+    form input, select, label {
+      @apply min-w-80;
+    }
+    
+    form label {
+      @apply inline-block;
+    }
+    div.public-form-field {
+      @apply my-2;
+    }
+}
