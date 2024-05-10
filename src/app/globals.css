@@ -1,101 +1,76 @@
 @tailwind base;
-@tailwind components;
-@tailwind utilities;
+  @tailwind components;
+  @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-  --primary-color: #1D4ED8; /* blue-500 */
-  --primary-accented-color: #2563EB; /* blue-600 */
-  --hover-color: #1E40AF; /* blue-700 */
-  --text-color: #F9FAFB; /* white */
-  --bg-color-even: #F3F4F6; /* gray-100 */
-  --bg-color-odd: #FFFFFF; /* white */
-  --placeholder-color: #6B7280; /* gray-500 */
-}
+  @layer base {
+    :root {
+      --background: 0 0% 100%;
+      --foreground: 222.2 84% 4.9%;
 
-* {
-  @apply font-sans;
-}
-body {
-  color: rgb(var(--foreground-rgb));
-}
+      --card: 0 0% 100%;
+      --card-foreground: 222.2 84% 4.9%;
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
+      --popover: 0 0% 100%;
+      --popover-foreground: 222.2 84% 4.9%;
+
+      --primary: 222.2 47.4% 11.2%;
+      --primary-foreground: 210 40% 98%;
+
+      --secondary: 210 40% 96.1%;
+      --secondary-foreground: 222.2 47.4% 11.2%;
+
+      --muted: 210 40% 96.1%;
+      --muted-foreground: 215.4 16.3% 46.9%;
+
+      --accent: 210 40% 96.1%;
+      --accent-foreground: 222.2 47.4% 11.2%;
+
+      --destructive: 0 84.2% 60.2%;
+      --destructive-foreground: 210 40% 98%;
+
+      --border: 214.3 31.8% 91.4%;
+      --input: 214.3 31.8% 91.4%;
+      --ring: 222.2 84% 4.9%;
+
+      --radius: 0.5rem;
+    }
+
+    .dark {
+      --background: 222.2 84% 4.9%;
+      --foreground: 210 40% 98%;
+
+      --card: 222.2 84% 4.9%;
+      --card-foreground: 210 40% 98%;
+
+      --popover: 222.2 84% 4.9%;
+      --popover-foreground: 210 40% 98%;
+
+      --primary: 210 40% 98%;
+      --primary-foreground: 222.2 47.4% 11.2%;
+
+      --secondary: 217.2 32.6% 17.5%;
+      --secondary-foreground: 210 40% 98%;
+
+      --muted: 217.2 32.6% 17.5%;
+      --muted-foreground: 215 20.2% 65.1%;
+
+      --accent: 217.2 32.6% 17.5%;
+      --accent-foreground: 210 40% 98%;
+
+      --destructive: 0 62.8% 30.6%;
+      --destructive-foreground: 210 40% 98%;
+
+      --border: 217.2 32.6% 17.5%;
+      --input: 217.2 32.6% 17.5%;
+      --ring: 212.7 26.8% 83.9%;
+    }
   }
-}
-button {
-  @apply bg-gradient-to-r from-[var(--primary-color)] to-[var(--primary-accented-color)] text-white rounded px-4 py-1 transition duration-200 ease-in-out transform;
-}
 
-button:hover {
-  @apply scale-105;
-}
-
-tr:nth-child(even) {
-  @apply bg-[var(--bg-color-even)];
-}
-
-tr:nth-child(odd) {
-  @apply bg-[var(--bg-color-odd)];
-}
-
-td, th {
-  @apply pr-2 py-1;
-}
-th {
-  @apply text-left;
-}
-
-a {
-  @apply hover:underline;
-}
-
-h1 {
-  @apply text-2xl;
-}
-h2 {
-  @apply mt-8 text-lg;
-}
- hr {
-  @apply mt-2 bg-[var(--primary-color)];
- }
-select {
-  @apply min-h-8;
-}
-form {
-  @apply flex flex-col space-y-2;
-}
-
-form button, input, select {
-  @apply self-start;
-}
-
-form input, select, label {
-  @apply min-w-80;
-}
-
-form label {
-  @apply inline-block;
-}
-input[type="text"], select {
-  @apply border rounded p-1;
-}
-
-input[type="text"]::placeholder {
-  @apply text-[var(--placeholder-color)];
-}
-
-.delete-button {
-  @apply cursor-pointer;
-}
-.delete-button::after {
-  content: "🗑️";
-}
-
-div.public-form-field {
-  @apply my-2;
-}
+  @layer base {
+    * {
+      @apply border-border;
+    }
+    body {
+      @apply bg-background text-foreground;
+    }
+  }
