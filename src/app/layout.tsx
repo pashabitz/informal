@@ -6,6 +6,7 @@ import { ConvexProviderWithClerk } from "convex/react-clerk";
 
 import "./globals.css";
 import Header from "./Header";
+import { Toaster } from "@/components/ui/toaster";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -31,6 +32,7 @@ export default function RootLayout({
         <main className="flex-grow m-2">
         {children}
         </main>
+        <Toaster />
         </ConvexClientProvider>
         <footer className="flex justify-center items-center">Made with ❤️ and&nbsp;<a href="https://convex.dev" target="_blank">Convex</a></footer>
         </div>

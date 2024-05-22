@@ -88,6 +88,13 @@
     span.delete-button::after {
       content: "🗑️";
     }
+    button {
+      @apply mr-1 mt-1;
+    }
+    input {
+      @apply inline-block;
+
+    }
     form {
       @apply flex flex-col;
     }

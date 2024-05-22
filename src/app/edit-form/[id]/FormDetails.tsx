@@ -9,6 +9,9 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
+import { useToast } from "@/components/ui/use-toast";
+import { useCopyToClipboard } from "react-use";
 
 const formSchema = z.object({
   name: z.string(),
@@ -19,6 +22,8 @@ const formSchema = z.object({
 export default function FormFields({ id }: { id: string } ) {
   const formDetails = useQuery(api.forms.get, { formId: id as Id<"forms"> });
   const updateForm = useMutation(api.forms.update);
+  const { toast } = useToast();
+  const [, copyToClipboard] = useCopyToClipboard();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -60,19 +65,21 @@ export default function FormFields({ id }: { id: string } ) {
     }
   };
 
-  const formUrlRef = useRef<HTMLSpanElement>(null);
-  const handleCopy = async () => {
-    if(!formUrlRef.current) return;
-    const formUrl = formUrlRef.current.innerText;
-    await navigator.clipboard.writeText(formUrl);
+  const handleCopy = () => {
+    const formUrl = `${process.env.NEXT_PUBLIC_WEBSITE_URL}/f/${watchSlug}`;
+    copyToClipboard(formUrl);
+    toast({
+      title: 'Copied',
+      description: formUrl,
+    });
   };
   return <>
-  <div className="inline bg-slate-100 p-2 rounded">
-    <span ref={formUrlRef}>{process.env.NEXT_PUBLIC_WEBSITE_URL}/f/{watchSlug}</span>
-    <button onClick={handleCopy} className="bg-none">📋</button>
+  <div className="p-2 rounded">
+    <Label>Publish this URL to collect responses:</Label>
+    <Input type="text" disabled value={`${process.env.NEXT_PUBLIC_WEBSITE_URL}/f/${watchSlug}`} />
+    <Button onClick={handleCopy} >Copy Link</Button>
+    <Button onClick={() => window.open(`/f/${watchSlug}`, '_blank')}>Open Form</Button>
   </div>&nbsp;
-  <a href={`/f/${watchSlug}`} target="_blank">preview ↗️</a>
-  <p className="italic text-[var(--placeholder-color)]">Publish this URL to collect responses.</p>
   <Form {...form}>
   <form onSubmit={form.handleSubmit(handleSubmit)} className="mt-4">
     <FormField
