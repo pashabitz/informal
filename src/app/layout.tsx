@@ -29,7 +29,7 @@ export default function RootLayout({
         <div className="flex flex-col min-h-screen">
         <ConvexClientProvider>
         <Header />
-        <main className="flex-grow m-2">
+        <main className="container flex-grow mx-auto m-2">
         {children}
         </main>
         <Toaster />
