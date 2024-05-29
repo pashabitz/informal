@@ -67,7 +67,7 @@ export default function Page({ params }: { params: { id: string } }) {
                       </SelectTrigger>
                       <SelectContent>
                         {userFormField.selectOptions?.map((option: string) => (
-                          <SelectItem value={option}>{option}</SelectItem>
+                          <SelectItem key={option} value={option}>{option}</SelectItem>
                         ))}
                       </SelectContent>
                       </Select>
