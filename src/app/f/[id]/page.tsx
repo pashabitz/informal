@@ -31,7 +31,7 @@ export default function Page({ params }: { params: { id: string } }) {
   const handleSubmit = async(values: z.infer<typeof formSchema>) => {
     const missingFields = Object.keys(values).filter((field) => !values[field]);
     if (!missingFields || missingFields.length > 0) {
-      alert(`Please fill out the following fields: ${missingFields?.map((field) => field.name).join(', ')}`);
+      alert(`Please fill out the following fields: ${missingFields?.join(', ')}`);
       return;
     }
     const responseValues = Object.keys(values).map((field) => ({
