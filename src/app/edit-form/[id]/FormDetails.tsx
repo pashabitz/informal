@@ -77,7 +77,7 @@ export default function FormFields({ id }: { id: string } ) {
     });
   };
   return <>
-  <div className="p-2 rounded">
+  <div className="rounded">
     <Label>Publish this URL to collect responses:</Label>
     <Input type="text" disabled value={`${process.env.NEXT_PUBLIC_WEBSITE_URL}/f/${watchSlug}`} />
     <Button onClick={handleCopy} >Copy Link</Button>
@@ -85,6 +85,7 @@ export default function FormFields({ id }: { id: string } ) {
   </div>&nbsp;
   <Form {...form}>
   <form onSubmit={form.handleSubmit(handleSubmit)} className="mt-4">
+    <div>
     <FormField
     control={form.control}
     name="slug"
@@ -96,6 +97,8 @@ export default function FormFields({ id }: { id: string } ) {
       </FormControl>
       </FormItem>
     )} />
+    </div>
+    <div>
     <FormField
     control={form.control}
     name="name"
@@ -107,6 +110,8 @@ export default function FormFields({ id }: { id: string } ) {
       </FormControl>
       </FormItem>
     )}/>
+    </div>
+    <div>
     <FormField
     control={form.control}
     name="description"
@@ -119,6 +124,7 @@ export default function FormFields({ id }: { id: string } ) {
       </FormItem>
   
     )} />
+    </div>
     <Button type="submit">Save</Button>
   </form>
   </Form>

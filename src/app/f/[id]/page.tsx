@@ -12,6 +12,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 
 export default function Page({ params }: { params: { id: string } }) {
   const fields = useQuery(api.form_fields.getBySlug, { slug: params.id });
+  const formDetails = useQuery(api.forms.getBySlug, { slug: params.id });
   const [isSubmitted, setIsSubmitted] = useState(false);
   const addResponse = useMutation(api.form_responses.addResponse);
 
@@ -47,8 +48,10 @@ export default function Page({ params }: { params: { id: string } }) {
     <div>Your submission was recorded. Thank you ❤️</div>
   ) : (
     <>
+    <h1>{formDetails?.name || params.id}</h1>
+    <div>{formDetails?.description}</div>
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(handleSubmit)}>
+      <form onSubmit={form.handleSubmit(handleSubmit)} className="mt-4">
         {fields && fields.map((userFormField, i) => (
           <div key={userFormField._id} >
             <FormField

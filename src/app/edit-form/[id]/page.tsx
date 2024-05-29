@@ -16,7 +16,7 @@ export default function Page({ params }: { params: { id: string } }) {
   <hr />
   <FormFields id={params.id} />
   <hr />
-  <h2>Responses:</h2>
+  <h2>Responses</h2>
   <FormResponses id={params.id} />
   </Authenticated>
   

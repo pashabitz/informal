@@ -98,6 +98,9 @@
     form {
       @apply flex flex-col;
     }
+    form > div {
+      @apply mb-2;
+    }
     form.edit-fields-form {
       @apply flex-row;
       div {

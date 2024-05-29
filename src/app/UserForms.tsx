@@ -26,7 +26,7 @@ export default function UserForms() {
     return <>
    {forms && forms.length > 0 ? (
     <>
-    <h2 className="mt-0">Your forms:</h2>
+    <h2 className="mt-0">Your forms</h2>
     <Table>
         <TableBody>
         {forms.map((form) => (

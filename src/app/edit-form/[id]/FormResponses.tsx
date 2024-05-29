@@ -12,7 +12,7 @@ return (
         {responses && responses.length > 0 ? (
             <>
                 {responses.map((r) => (
-                        <Card key={r._id} className="w-80 my-2">
+                        <Card key={r._id} className="w-full my-2">
                             <CardHeader>
                                 <CardTitle>
                             {new Date(r._creationTime).toLocaleString()}
