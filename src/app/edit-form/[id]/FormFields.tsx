@@ -1,5 +1,4 @@
 "use client";
-import { useState } from "react";
 import { useQuery, useMutation } from 'convex/react';
 import { api } from '../../../../convex/_generated/api';
 import { Id } from "../../../../convex/_generated/dataModel";
@@ -10,7 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Form, FormControl, FormField, FormItem, FormLabel } from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 
 const formSchema = z.object({
   name: z.string(),
@@ -34,7 +33,7 @@ export default function FormFields({ id }: { id: string } ) {
   
   const watchType = form.watch('type');
 
-  const newHandleSubmit = async (values: z.infer<typeof formSchema>) => {
+  const handleSubmit = async (values: z.infer<typeof formSchema>) => {
     const { name, type, select_options } = values;
     if (name.trim() === '') {
       alert("Please enter a field name");
@@ -90,7 +89,7 @@ export default function FormFields({ id }: { id: string } ) {
     </TableBody>
     </Table>
     <Form {...form}>
-  <form onSubmit={form.handleSubmit(newHandleSubmit)} className="edit-fields-form">
+  <form onSubmit={form.handleSubmit(handleSubmit)} className="edit-fields-form">
 <div>
 <FormField
     control={form.control}

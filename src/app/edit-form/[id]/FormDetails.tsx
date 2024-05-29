@@ -60,6 +60,9 @@ export default function FormFields({ id }: { id: string } ) {
     }
     try {
         await updateForm({ formId: id as Id<"forms">, name, description, slug });
+        toast({
+            description: 'Your form has been updated',
+        });
     } catch (e: any) {
         alert(e.data);
     }
