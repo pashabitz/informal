@@ -11,6 +11,10 @@ A free form builder built with [Next.js](https://nextjs.org/) and [Convex](https
 
 ## Running the App
 
+For user authentication, follow the [Clerk setup instructions](https://docs.convex.dev/auth/clerk) to obtain a **publishable key** and then set it up as `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` environment variable in `.env.local`.
+
+To run the app:
+
 ```
 npm install
 npm run dev
