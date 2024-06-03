@@ -81,7 +81,7 @@ export default function Page({ params }: { params: { id: string } }) {
               />
           </div>
           ))}
-      <Button type="submit">New Submit</Button>
+      <Button type="submit">Submit</Button>
       </form>
     </Form>
   </>
