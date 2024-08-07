@@ -7,7 +7,7 @@ http.route({
     path: "/form",
     method: "GET", 
     handler: httpAction(async (ctx, request) => {
-        return new Response("Form", { status: 200 });
+        return new Response("Hello, Form", { status: 200 });
     }),
 });
 export default http;
