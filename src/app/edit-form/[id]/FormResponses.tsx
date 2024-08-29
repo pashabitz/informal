@@ -3,9 +3,10 @@ import { useState } from "react";
 import { useQuery, Authenticated, Unauthenticated, useMutation } from 'convex/react';
 import { api } from '../../../../convex/_generated/api';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Id } from "../../../../convex/_generated/dataModel";
 
 
-export default function FormResponses({ id }: { id: string } ) {
+export default function FormResponses({ id }: { id: Id<"forms"> } ) {
   const responses = useQuery(api.form_responses.getFormResponses, { formId: id });
 return (
     <>

@@ -25,7 +25,7 @@ export const addResponse = mutation({
 
 export const getFormResponses = query({
     args: {
-        formId: v.string(),
+        formId: v.id("forms"),
     },
     handler: async (ctx, args) => {
         const identity = await ctx.auth.getUserIdentity();
@@ -44,7 +44,7 @@ export const getFormResponses = query({
         }
         return ctx.db
             .query("form_responses")
-            .filter((q) => q.eq(q.field("formId"), args.formId))
+            .withIndex("by_formId", q => q.eq("formId", args.formId))
             .collect();
     },
 })
