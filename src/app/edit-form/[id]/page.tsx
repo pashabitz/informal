@@ -4,8 +4,9 @@ import { Authenticated, Unauthenticated } from 'convex/react';
 import FormFields from "./FormFields";
 import FormResponses from './FormResponses';
 import FormDetails from './FormDetails';
+import { Id } from '../../../../convex/_generated/dataModel';
 
-export default function Page({ params }: { params: { id: string } }) {
+export default function Page({ params }: { params: { id: Id<"forms"> } }) {
   
   return <>
   <Unauthenticated>
